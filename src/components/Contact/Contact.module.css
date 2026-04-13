@@ -1,0 +1,13 @@
+.contactLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: rgb(255, 165, 0);
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.contactLink * {
+  font-size: 1.25rem;
+}
