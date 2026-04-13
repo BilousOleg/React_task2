@@ -1,4 +1,6 @@
 :root {
+  --card-shadow-color: rgb(128, 128, 128);
+  --image-default-bg-color: #e0e0e0;
 }
 
 html {
