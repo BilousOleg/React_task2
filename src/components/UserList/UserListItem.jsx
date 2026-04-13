@@ -27,9 +27,8 @@ class UserListItem extends Component {
   };
 
   mapContacts = (contact, index) => {
-    // Тут вирішив зробити key у вигляді конкатенації contact й index (бо список незмінний),
-    // адже вони в сумі дають наближене до унікального значення (рядок). Інших варіантів не побачив
-    return <Contact key={contact + index} href={contact} />;
+    // Тут вирішив надати key значення contact, бо воно може бути відносно-унікальним в даному наборі посилань
+    return <Contact key={contact} href={contact} />;
   };
 
   render() {
