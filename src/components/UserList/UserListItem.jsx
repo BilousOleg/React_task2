@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styles from './UserList.module.css';
-import errorPicture from './errorPicture.png';
+// import errorPicture from './errorPicture.png';
 import anonymPicture from './anonymPicture.png';
 import Contact from '../Contact';
 
@@ -13,13 +13,17 @@ class UserListItem extends Component {
     this.state = {
       // Або додається зображення, якщо воно є, а якщо немає - anonymPicture
       profilePicture: profilePicture ? profilePicture : anonymPicture,
+      isErrorPicture: false,
     };
   }
 
+  // Варіант зі зміною помилкового зображення на дефолтне зображення-заглушку (підміна посилання)
+  // setErrorPicture = () => {
+  //   this.setState({ profilePicture: errorPicture });
+  // };
+
   setErrorPicture = () => {
-    // Було вказано, що "Заглушка може бути div і повинна малюватись замість картинки",
-    // але я не зовсім зрозумів, про що йде мова, тому зробив через зміну стану
-    this.setState({ profilePicture: errorPicture });
+    this.setState({ isErrorPicture: true });
   };
 
   mapContacts = (contact, index) => {
@@ -30,19 +34,22 @@ class UserListItem extends Component {
 
   render() {
     const { firstName, lastName, contacts } = this.props.user;
-    const { profilePicture } = this.state;
+    const { profilePicture, isErrorPicture } = this.state;
 
     return (
       <li>
         <article className={styles.userCard}>
           <div className={styles.imageWrapper}>
-            <img
-              src={profilePicture}
-              alt={`${firstName} ${lastName}`}
-              // Для встановлення заглушки довелося перероблювати компонент на класовий,
-              // адже його стан змінюється тоді, коли виникає помилка (а з хуками ще не знайомий)
-              onError={this.setErrorPicture}
-            />
+            {/* Умовний рендеринг в залежності від того, чи є помилка завантаження, чи ні */}
+            {!isErrorPicture ? (
+              <img
+                src={profilePicture}
+                alt={`${firstName} ${lastName}`}
+                onError={this.setErrorPicture}
+              />
+            ) : (
+              <div className={styles.imgErrorHolder}></div>
+            )}
           </div>
           <div className={styles.infoSection}>
             <div className={styles.userName}>

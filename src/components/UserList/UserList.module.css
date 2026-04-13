@@ -36,8 +36,14 @@
   object-fit: cover;
 }
 
+.imgErrorHolder {
+  width: 100%;
+  height: 100%;
+  background-color: var(--image-error-handler-color);
+}
+
 .infoSection {
-  flex: 1 0 auto;
+  margin-top: auto;
   padding: 1.25rem 1.25rem 2.5rem;
 }
 
