@@ -27,30 +27,34 @@ class UserListItem extends Component {
     const { isErrorPicture } = this.state;
 
     return (
-      <li>
-        <article className={styles.userCard}>
-          <div className={styles.imageWrapper}>
-            {/* Умовний рендеринг в залежності від того, чи є помилка завантаження, чи ні */}
-            {!isErrorPicture ? (
-              <img
-                src={profilePicture ? profilePicture : anonymPicture}
-                alt={`${firstName} ${lastName}`}
-                onError={this.setErrorPicture}
-              />
-            ) : (
-              <div className={styles.imgErrorHolder}></div>
-            )}
-          </div>
-          <div className={styles.infoSection}>
-            <div className={styles.userName}>
-              {firstName} {lastName}
+      // Додана перевірка на одночасну наявність імені й прізвища. Якщо таких не виявлено - картка не рендериться
+      firstName &&
+      lastName && (
+        <li>
+          <article className={styles.userCard}>
+            <div className={styles.imageWrapper}>
+              {/* Умовний рендеринг в залежності від того, чи є помилка завантаження, чи ні */}
+              {!isErrorPicture ? (
+                <img
+                  src={profilePicture ? profilePicture : anonymPicture}
+                  alt={`${firstName} ${lastName}`}
+                  onError={this.setErrorPicture}
+                />
+              ) : (
+                <div className={styles.imgErrorHolder}></div>
+              )}
             </div>
-            <ul className={styles.contactsList}>
-              {contacts.map(this.mapContacts)}
-            </ul>
-          </div>
-        </article>
-      </li>
+            <div className={styles.infoSection}>
+              <div className={styles.userName}>
+                {firstName} {lastName}
+              </div>
+              <ul className={styles.contactsList}>
+                {contacts.map(this.mapContacts)}
+              </ul>
+            </div>
+          </article>
+        </li>
+      )
     );
   }
 }

@@ -19,7 +19,8 @@ class App extends Component {
   // changeProps = () => {
   //   const { users } = this.state;
   //   const newUsers = users.map((u) => {
-  //     u.lastName += 'a';
+  //     u.profilePicture =
+  //       'https://m.media-amazon.com/images/M/MV5BMTM3OTUwMDYwNl5BMl5BanBnXkFtZTcwNTUyNzc3Nw@@._V1_.jpg';
   //     return u;
   //   });
   //   this.setState({
