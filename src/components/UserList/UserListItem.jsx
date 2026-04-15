@@ -8,32 +8,23 @@ class UserListItem extends Component {
   constructor(props) {
     super(props);
 
-    const { profilePicture } = this.props.user;
-
     this.state = {
-      // Або додається зображення, якщо воно є, а якщо немає - anonymPicture
-      profilePicture: profilePicture ? profilePicture : anonymPicture,
       isErrorPicture: false,
     };
   }
-
-  // Варіант зі зміною помилкового зображення на дефолтне зображення-заглушку (підміна посилання)
-  // setErrorPicture = () => {
-  //   this.setState({ profilePicture: errorPicture });
-  // };
 
   setErrorPicture = () => {
     this.setState({ isErrorPicture: true });
   };
 
-  mapContacts = (contact, index) => {
+  mapContacts = (contact) => {
     // Тут вирішив надати key значення contact, бо воно може бути відносно-унікальним в даному наборі посилань
     return <Contact key={contact} href={contact} />;
   };
 
   render() {
-    const { firstName, lastName, contacts } = this.props.user;
-    const { profilePicture, isErrorPicture } = this.state;
+    const { firstName, lastName, contacts, profilePicture } = this.props.user;
+    const { isErrorPicture } = this.state;
 
     return (
       <li>
@@ -42,7 +33,7 @@ class UserListItem extends Component {
             {/* Умовний рендеринг в залежності від того, чи є помилка завантаження, чи ні */}
             {!isErrorPicture ? (
               <img
-                src={profilePicture}
+                src={profilePicture ? profilePicture : anonymPicture}
                 alt={`${firstName} ${lastName}`}
                 onError={this.setErrorPicture}
               />

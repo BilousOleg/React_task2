@@ -1,24 +1,17 @@
-import { Component } from 'react';
 import styles from './UserList.module.css';
 import UserListItem from './UserListItem';
 
-class UserList extends Component {
-  constructor(props) {
-    super(props);
+// Переробив компонент на функціональний, адже все одно не користуюся його станом
+function UserList(props) {
+  const { usersArray } = props;
 
-    this.state = {
-      users: props.usersArray,
-    };
-  }
-
-  mapUser = (u) => {
-    return <UserListItem key={u.id} user={u}></UserListItem>;
-  };
-
-  render() {
-    const { users } = this.state;
-    return <ul className={styles.userList}>{users.map(this.mapUser)}</ul>;
-  }
+  return (
+    <ul className={styles.userList}>
+      {usersArray.map((u) => (
+        <UserListItem key={u.id} user={u} />
+      ))}
+    </ul>
+  );
 }
 
 export default UserList;
