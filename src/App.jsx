@@ -3,37 +3,39 @@ import './App.css';
 import usersArray from './data';
 import UserList from './components/UserList';
 
-// Переписав на класовий компонент для можливості змінити стан і перевірити
-// прокидання пропсів у залежних компонентах і, відповідно, їх ререндер
+// По-суті переніс getService з Contact сюди
+function getKeyFromUrl(url) {
+  if (url.includes('facebook')) return 'facebook';
+  if (url.includes('twitter')) return 'twitter';
+  if (url.includes('instagram')) return 'instagram';
+  return 'default';
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: usersArray,
+      users: usersArray.map(this.mapUsers),
     };
   }
 
-  // Суто перевірочний метод, який змінює стан усіх елементів
-  // масиву і, відповідно, задає  його компонентів-елементів
-  // changeProps = () => {
-  //   const { users } = this.state;
-  //   const newUsers = users.map((u) => {
-  //     u.profilePicture =
-  //       'https://m.media-amazon.com/images/M/MV5BMTM3OTUwMDYwNl5BMl5BanBnXkFtZTcwNTUyNzc3Nw@@._V1_.jpg';
-  //     return u;
-  //   });
-  //   this.setState({
-  //     users: newUsers,
-  //   });
-  // };
+  // Метод для додавання мапи ('посилання контакту': 'рядок-ідентифікатор контакту'))
+  mapUsers(user) {
+    const contactMap = new Map();
+
+    for (const url of user.contacts) {
+      const key = getKeyFromUrl(url);
+      contactMap.set(key, url);
+    }
+
+    return { ...user, contactsMap: contactMap };
+  }
 
   render() {
     return (
       <>
-        {/* Кнопка для застосування перевірочного метода */}
-        {/* <button onClick={this.changeProps}>Click me!</button> */}
-        <UserList usersArray={usersArray} />
+        <UserList usersArray={this.state.users} />
       </>
     );
   }

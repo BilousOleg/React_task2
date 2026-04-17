@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import styles from './UserList.module.css';
-// import errorPicture from './errorPicture.png';
 import anonymPicture from './anonymPicture.png';
 import Contact from '../Contact';
 
@@ -17,23 +16,27 @@ class UserListItem extends Component {
     this.setState({ isErrorPicture: true });
   };
 
-  mapContacts = (contact) => {
-    // Тут вирішив надати key значення contact, бо воно може бути відносно-унікальним в даному наборі посилань
-    return <Contact key={contact} href={contact} />;
+  mapContacts = (contact, contactsMap) => {
+    return (
+      <Contact
+        key={contact}
+        href={contact}
+        service={contactsMap.get(contact)}
+      />
+    );
   };
 
   render() {
-    const { firstName, lastName, contacts, profilePicture } = this.props.user;
+    const { firstName, lastName, contacts, profilePicture, contactsMap } =
+      this.props.user;
     const { isErrorPicture } = this.state;
 
     return (
-      // Додана перевірка на одночасну наявність імені й прізвища. Якщо таких не виявлено - картка не рендериться
       firstName &&
       lastName && (
         <li>
           <article className={styles.userCard}>
             <div className={styles.imageWrapper}>
-              {/* Умовний рендеринг в залежності від того, чи є помилка завантаження, чи ні */}
               {!isErrorPicture ? (
                 <img
                   src={profilePicture ? profilePicture : anonymPicture}
@@ -44,14 +47,16 @@ class UserListItem extends Component {
                 <div className={styles.imgErrorHolder}></div>
               )}
             </div>
-            <div className={styles.infoSection}>
-              <div className={styles.userName}>
+            <section className={styles.infoSection}>
+              <h3 className={styles.userName}>
                 {firstName} {lastName}
-              </div>
+              </h3>
               <ul className={styles.contactsList}>
-                {contacts.map(this.mapContacts)}
+                {contacts.map((contact) => {
+                  this.mapContacts(contact, contactsMap);
+                })}
               </ul>
-            </div>
+            </section>
           </article>
         </li>
       )

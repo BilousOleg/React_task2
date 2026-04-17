@@ -2,9 +2,7 @@ import styles from './UserList.module.css';
 import UserListItem from './UserListItem';
 
 // Переробив компонент на функціональний, адже все одно не користуюся його станом
-function UserList(props) {
-  const { usersArray } = props;
-
+function UserList({ usersArray }) {
   return (
     <ul className={styles.userList}>
       {usersArray.map((u) => (
