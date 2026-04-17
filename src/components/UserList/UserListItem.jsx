@@ -52,9 +52,9 @@ class UserListItem extends Component {
                 {firstName} {lastName}
               </h3>
               <ul className={styles.contactsList}>
-                {contacts.map((contact) => {
-                  this.mapContacts(contact, contactsMap);
-                })}
+                {contacts.map((contact) =>
+                  this.mapContacts(contact, contactsMap)
+                )}
               </ul>
             </section>
           </article>

@@ -22,14 +22,14 @@ class App extends Component {
 
   // Метод для додавання мапи ('посилання контакту': 'рядок-ідентифікатор контакту'))
   mapUsers(user) {
-    const contactMap = new Map();
+    const contactsMap = new Map();
 
     for (const url of user.contacts) {
-      const key = getKeyFromUrl(url);
-      contactMap.set(key, url);
+      const keyWord = getKeyFromUrl(url);
+      contactsMap.set(url, keyWord);
     }
 
-    return { ...user, contactsMap: contactMap };
+    return { ...user, contactsMap: contactsMap };
   }
 
   render() {
