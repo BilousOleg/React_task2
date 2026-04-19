@@ -16,21 +16,30 @@ class App extends Component {
     super(props);
 
     this.state = {
-      users: usersArray.map(this.mapUsers),
+      users: this.prepareUsers(usersArray),
     };
   }
 
-  // Логіка мапінгу списку - основна. Тут, у user.contacts, елементи-рядки з посиланнями
-  // перероблюються на об'єкти, щоб прибрати зайві витяги з мапи, яка була до цього, в наступних компонентах
-  mapUsers(user) {
-    return {
-      ...user,
-      contacts: user.contacts.map((url) => ({
-        url,
-        service: getService(url),
-      })),
-    };
-  }
+  // Метод для перероблення contacts з урахуванням необхідних властивостей,
+  // які повинні мати об'єкти юзерів, щоб вони були відрендерені
+  // можна винести в окрему функцію, але в цьому не впевнений
+  prepareUsers = (usersArray) =>
+    // Повертаємо результат reduce
+    usersArray.reduce((acc, user) => {
+      // Якщо є необхідні властивості (вказано хоча б ім'я та прізвище), об'єкт буде додано
+      if (user.firstName && user.lastName) {
+        // Додаємо об'єкт до масиву
+        acc.push({
+          ...user,
+          contacts: user.contacts.map((url) => ({
+            url,
+            service: getService(url),
+          })),
+        });
+      }
+      // Повертаємо акумулятор (масив об'єктів)
+      return acc;
+    }, []);
 
   render() {
     return <UserList usersArray={this.state.users} />;
