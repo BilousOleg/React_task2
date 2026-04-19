@@ -12,31 +12,23 @@ class UserListItem extends Component {
     };
   }
 
+  // Логіка зміни стану наявності помилки
   setErrorPicture = () => {
     this.setState({ isErrorPicture: true });
   };
 
-  mapContacts = (contact, contactsMap) => {
-    return (
-      <Contact
-        key={contact}
-        href={contact}
-        service={contactsMap.get(contact)}
-      />
-    );
-  };
-
   render() {
-    const { firstName, lastName, contacts, profilePicture, contactsMap } =
-      this.props.user;
+    const { firstName, lastName, contacts, profilePicture } = this.props.user;
     const { isErrorPicture } = this.state;
 
     return (
+      // Логіка умовного рендеру - необхідна
       firstName &&
       lastName && (
         <li>
           <article className={styles.userCard}>
             <div className={styles.imageWrapper}>
+              {/* Знову логіка умовного рендеру - необхнідна */}
               {!isErrorPicture ? (
                 <img
                   src={profilePicture ? profilePicture : anonymPicture}
@@ -52,9 +44,11 @@ class UserListItem extends Component {
                 {firstName} {lastName}
               </h3>
               <ul className={styles.contactsList}>
-                {contacts.map((contact) =>
-                  this.mapContacts(contact, contactsMap)
-                )}
+                {/* Логіка мапінгу контактів - необхідна, адже треба відображати масив елементів */}
+                {/* Була перероблена у зв'язку зі змінами в App */}
+                {contacts.map(({ url, service }) => (
+                  <Contact key={url} href={url} service={service} />
+                ))}
               </ul>
             </section>
           </article>

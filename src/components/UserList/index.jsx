@@ -5,6 +5,7 @@ import UserListItem from './UserListItem';
 function UserList({ usersArray }) {
   return (
     <ul className={styles.userList}>
+      {/* Логіка мапінгу списку користувачів - необхідна, адже треба відображати масив елементів  */}
       {usersArray.map((u) => (
         <UserListItem key={u.id} user={u} />
       ))}

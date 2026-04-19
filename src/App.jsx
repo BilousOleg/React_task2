@@ -3,8 +3,8 @@ import './App.css';
 import usersArray from './data';
 import UserList from './components/UserList';
 
-// По-суті переніс getService з Contact сюди
-function getKeyFromUrl(url) {
+// Функція отримання ідентифікатора посилання - необхідна (Хоча може бути винесена в окремий файл)
+function getService(url) {
   if (url.includes('facebook')) return 'facebook';
   if (url.includes('twitter')) return 'twitter';
   if (url.includes('instagram')) return 'instagram';
@@ -20,24 +20,20 @@ class App extends Component {
     };
   }
 
-  // Метод для додавання мапи ('посилання контакту': 'рядок-ідентифікатор контакту'))
+  // Логіка мапінгу списку - основна. Тут, у user.contacts, елементи-рядки з посиланнями
+  // перероблюються на об'єкти, щоб прибрати зайві витяги з мапи, яка була до цього, в наступних компонентах
   mapUsers(user) {
-    const contactsMap = new Map();
-
-    for (const url of user.contacts) {
-      const keyWord = getKeyFromUrl(url);
-      contactsMap.set(url, keyWord);
-    }
-
-    return { ...user, contactsMap: contactsMap };
+    return {
+      ...user,
+      contacts: user.contacts.map((url) => ({
+        url,
+        service: getService(url),
+      })),
+    };
   }
 
   render() {
-    return (
-      <>
-        <UserList usersArray={this.state.users} />
-      </>
-    );
+    return <UserList usersArray={this.state.users} />;
   }
 }
 
